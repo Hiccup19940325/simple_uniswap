@@ -1,0 +1,34 @@
+specVersion: 0.0.5
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum
+    name: SwapExample
+    network: sepolia
+    source:
+      abi: SwapExample
+      address: "0x07f6EAca4558B8979Ad3adf1cB179825B844f4e4"
+      startBlock: 4872192
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - AddLiquidity
+        - RemoveLiquidity
+        - Swap
+        - UpdatePrice
+        - Pair
+      abis:
+        - name: SwapExample
+          file: SwapExample\abis\SwapExample.json
+      eventHandlers:
+        - event: AddLiquidity(address,uint256,uint256,address,address,uint256)
+          handler: handleAddLiquidity
+        - event: RemoveLiquidity(address,uint256,uint256,address,address,uint256)
+          handler: handleRemoveLiquidity
+        - event: Swap(address,uint256,uint256,address,address,uint256)
+          handler: handleSwap
+        - event: UpdatePrice(address,uint256)
+          handler: handleUpdatePrice
+      file: SwapExample\SwapExample.wasm

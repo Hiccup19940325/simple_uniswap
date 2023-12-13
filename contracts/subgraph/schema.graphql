@@ -1,0 +1,54 @@
+type Pair @entity {
+  id: Bytes! #address
+  swap: [Swap!]
+  addLiquidity: [AddLiquidity!]
+  removeLiquidity: [RemoveLiquidity!]
+  lastUpdate: BigInt!
+  updatePrice:[UpdatePrice!]
+}
+
+type AddLiquidity @entity(immutable: true) {
+  id: Bytes!
+  pair: Bytes! # address
+  amountA: BigInt! # uint256
+  amountB: BigInt! # uint256
+  tokenA: Bytes! # address
+  tokenB: Bytes! # address
+  time: BigInt! # uint256
+}
+
+# type OwnershipTransferred @entity(immutable: true) {
+#   id: Bytes!
+#   previousOwner: Bytes! # address
+#   newOwner: Bytes! # address
+#   blockNumber: BigInt!
+#   blockTimestamp: BigInt!
+#   transactionHash: Bytes!
+# }
+
+type RemoveLiquidity @entity(immutable: true) {
+  id: Bytes!
+  pair: Bytes! # address
+  amountA: BigInt! # uint256
+  amountB: BigInt! # uint256
+  tokenA: Bytes! # address
+  tokenB: Bytes! # address
+  time: BigInt! # uint256
+}
+
+type Swap @entity(immutable: true) {
+  id: Bytes!
+  pair: Bytes! # address
+  amountIn: BigInt! # uint256
+  amountOut: BigInt! # uint256
+  tokenIn: Bytes! # address
+  tokenOut: Bytes! # address
+  time: BigInt! # uint256
+}
+
+type UpdatePrice @entity(immutable: true) {
+  id: Bytes!
+  pair: Bytes!
+  price: BigInt! # uint256
+  updateTime: BigInt!
+}
