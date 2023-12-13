@@ -6,7 +6,7 @@ import PlotChart from '../chart';
 import { useContract } from "@thirdweb-dev/react";
 
 const GET_PRICE = gql`
-    query Price($pair: String!, $from: Int!) {
+    query Price($pair: String!, $from: String!) {
         pairs (where: {id: $pair}) {
             updatePrice (where: {updateTime_gte: $from}){
                 price
@@ -15,14 +15,13 @@ const GET_PRICE = gql`
         }
     }
 `
-
 export default function Info() {
     const [pairAddress, setPair] = useState(pair);
     const [selectValue, setSelectValue] = useState('TEther/TDai')
     const { loading, error, data } = useQuery(GET_PRICE, {
         variables: {
             pair: pairAddress,
-            from: parseInt(Date.now() / 1000 - 3600 * 24 * 7)
+            from: (Date.now() / 1000 - 3600 * 24 * 7).toFixed(0)
         },
         pollInterval: 1000
     });
