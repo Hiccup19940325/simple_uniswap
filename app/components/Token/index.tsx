@@ -3,14 +3,13 @@ import React, { useState } from "react";
 import { Web3Button, useAddress, useContract, useContractWrite } from "@thirdweb-dev/react";
 import { ethers } from "ethers";
 import { Tokens } from "@/const/yourDetails";
-import { abi as tokenAbi } from '../../../const/abis/token.json'
 
 export default function Token() {
 
     const address = useAddress();
     const [amountToMint, setAmountToMint] = useState(0);
     const [loading, setLoading] = useState(false);
-    const { contract: TEtherContract } = useContract(Tokens.TEther.address, tokenAbi);
+    const { contract: TEtherContract } = useContract(Tokens.TEther.address);
 
     // const handleMint = async () => {
     //     await TEtherContract.call("mint", [address, amountToMint * 0.01 * TEther.decimals])
@@ -26,7 +25,7 @@ export default function Token() {
                         <span className="label-text text-white">TEther</span>
 
                     </div>
-                    <input type="number" placeholder="Type here" className="input input-bordered w-full max-w-xs" onChange={(e) => {
+                    <input type="number" placeholder="Type here" className="input input-bordered w-full max-w-xs" onChange={(e: any) => {
                         setAmountToMint(e.target.value)
                     }} />
                 </label>
@@ -35,9 +34,9 @@ export default function Token() {
                     else {
                         try {
                             setLoading(true)
-                            await TEtherContract.call("mint", [address, (amountToMint * 0.01 * Tokens.TEther.decimals).toString()])
+                            await TEtherContract?.call("mint", [address, (amountToMint * 0.01 * Tokens.TEther.decimals).toString()])
                             setLoading(false)
-                        } catch (err) {
+                        } catch (err: any) {
                             alert(err.message)
                             setLoading(false)
                         }

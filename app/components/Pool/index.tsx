@@ -19,8 +19,8 @@ export function Add() {
     const { contract: Factory } = useContract(factory);
     const { contract: Pair } = useContract(pairAddress);
 
-    const handleFloat = (value) => {
-        if (parseInt(value * 100000) % 10 != 0) return parseFloat(value).toFixed(4);
+    const handleFloat = (value: any) => {
+        if ((parseInt(value) * 100000) % 10 != 0) return parseFloat(value).toFixed(4);
         else return value;
     }
 
@@ -33,22 +33,21 @@ export function Add() {
         setPair();
     }, [token1, token0]);
 
-    const handleChange0 = async (value) => {
+    const handleChange0 = async (value: any) => {
         let amount = (value > 0) ? value : 0;
         setAmount0(handleFloat(amount));
-        let amount1 = amount == 0 ? 0 : await swap.call('quote', [BigInt(amount * token0.decimals).toString(), token0.address, token1.address]);
+        let amount1 = amount == 0 ? 0 : await swap?.call('quote', [BigInt(amount * token0.decimals).toString(), token0.address, token1.address]);
         setAmount1(handleFloat(amount1 / token1.decimals));
     }
 
-    const handleChange1 = async (value) => {
-        const check = await checkReserve()
+    const handleChange1 = async (value: any) => {
         let amount = (value > 0) ? value : 0;
         setAmount1(handleFloat(amount));
-        let amount0 = amount == 0 ? 0 : await swap.call('quote', [BigInt(amount * token1.decimals).toString(), token1.address, token0.address]);
+        let amount0 = amount == 0 ? 0 : await swap?.call('quote', [BigInt(amount * token1.decimals).toString(), token1.address, token0.address]);
         setAmount0(handleFloat(amount0 / token0.decimals));
     }
 
-    const getTokenLists = (lists, token) => {
+    const getTokenLists = (lists: string[][], token: string) => {
         let list = lists.filter(item => item.includes(token));
         let tokenLists = list.flat().filter(item => item != token);
         setToken0(Tokens[token]);
@@ -61,12 +60,12 @@ export function Add() {
             let token0Amount = BigInt(amount0 * token0.decimals);
             let token1Amount = BigInt(amount1 * token1.decimals);
             setLoading(true);
-            await tokenA.call('approve', [swapAddress, token0Amount]);
-            await tokenB.call('approve', [swapAddress, token1Amount]);
+            await tokenA?.call('approve', [swapAddress, token0Amount]);
+            await tokenB?.call('approve', [swapAddress, token1Amount]);
 
-            await swap.call('addLiquidity', [token0.address, token1.address, token0Amount.toString(), token1Amount.toString()]);
+            await swap?.call('addLiquidity', [token0.address, token1.address, token0Amount.toString(), token1Amount.toString()]);
             setLoading(false);
-        } catch (err) {
+        } catch (err: any) {
             alert(err.message);
             setLoading(false);
         }
@@ -81,7 +80,7 @@ export function Add() {
                     <div className="label">
                         <span className="label-text text-white">{token0.name}</span>
                         <select className="select select-bordered select-sm max-w-xs" onChange={(e) => getTokenLists(pairs, e.target.value)}>
-                            {Object.entries(Tokens).map(item => <option value={item[1].name}>{item[1].name}</option>)}
+                            {Object.entries(Tokens).map((item: any) => <option value={item[1].name}>{item[1].name}</option>)}
                         </select>
                     </div>
                     <input type="number" step='0.001' placeholder="Type here" value={amount0} className="input input-bordered w-full max-w-xs" onChange={(e) => debounce(handleChange0(e.target.value), 1000)} />
@@ -116,7 +115,7 @@ export function Remove() {
     const { contract: Pair } = useContract(pair);
     const { contract: Factory } = useContract(factory);
 
-    const getTokenLists = (lists, token) => {
+    const getTokenLists = (lists: string[][], token: string) => {
         let list = lists.filter(item => item.includes(token));
         let tokenLists = list.flat().filter(item => item != token);
         setToken0(Tokens[token]);
@@ -139,7 +138,7 @@ export function Remove() {
             await Pair?.call('approve', [swapAddress, LP]);
             await swap?.call('removeLiquidity', [token0.address, token1.address]);
             setLoading(false);
-        } catch (err) {
+        } catch (err: any) {
             alert(err.message);
             setLoading(false);
         }
@@ -152,7 +151,7 @@ export function Remove() {
                 </h2>
                 <div className="grid grid-cols-2 gap-10">
                     <select className="select select-bordered select-sm max-w-xs" onChange={(e) => getTokenLists(pairs, e.target.value)}>
-                        {Object.entries(Tokens).map(item => <option value={item[1].name}>{item[1].name}</option>)}
+                        {Object.entries(Tokens).map((item: any) => <option value={item[1].name}>{item[1].name}</option>)}
                     </select>
                     <select className="select select-bordered select-sm max-w-xs" onChange={(e) => setToken1(Tokens[e.target.value])}>
                         {tokenLists.map(item => <option value={item}>{item}</option>)}

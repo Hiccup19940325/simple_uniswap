@@ -4,6 +4,7 @@ import { gql, useQuery } from "@apollo/client";
 import { Tokens, factory, pair, pairs } from "@/const/yourDetails";
 import PlotChart from '../chart';
 import { useContract } from "@thirdweb-dev/react";
+import { Token } from "@/const/types";
 
 const GET_PRICE = gql`
     query Price($pair: String!, $from: String!) {

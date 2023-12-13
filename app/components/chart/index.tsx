@@ -3,7 +3,7 @@ import { Line, Pie, Bar } from "react-chartjs-2";
 import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
 
-const PlotChart = (props) => {
+const PlotChart = (props: any) => {
 
     let chartRender = null;
 

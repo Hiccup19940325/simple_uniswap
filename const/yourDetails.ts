@@ -1,4 +1,6 @@
-export const Tokens = {
+import { Token } from "./types";
+
+export const Tokens: any = {
     TEther: {
         name: 'TEther',
         address: '0x0Cc68AD25AA0172D591F4421666578464ACeA011',
@@ -17,7 +19,7 @@ export const Tokens = {
 
 };
 
-export const pairs = [
+export const pairs: string[][] = [
     ['TEther', 'TDai'], ['TEther', 'TLink']
 ];
 

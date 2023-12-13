@@ -23,31 +23,31 @@ export default function Swap() {
         handleChange0(amount0)
     }, [token1, token0]);
 
-    const handleFloat = (value) => {
-        if (parseInt(value * 100000) % 10 != 0) return parseFloat(value).toFixed(4);
+    const handleFloat = (value: any) => {
+        if ((parseInt(value) * 100000) % 10 != 0) return parseFloat(value).toFixed(4);
         else return value;
     }
 
-    const handleChange0 = async (value) => {
+    const handleChange0 = async (value: any) => {
         let amount = value > 0 ? value : 0
         setAmount0(handleFloat(amount));
-        let amount1 = amount == 0 ? 0 : await swap.call('getAmountsOut', [BigInt(amount * token0.decimals).toString(), [token0.address, token1.address]]);
+        let amount1 = amount == 0 ? 0 : await swap?.call('getAmountsOut', [BigInt(amount * token0.decimals).toString(), [token0.address, token1.address]]);
         console.log(amount1)
 
         setAmount1(handleFloat(amount1 / token1.decimals));
     }
 
-    const handleChange1 = async (value) => {
+    const handleChange1 = async (value: any) => {
         let amount = value > 0 ? value : 0
         setAmount1(handleFloat(amount));
         console.log(amount * token1.decimals)
-        let amount0 = amount == 0 ? 0 : await swap.call('getAmountsIn', [BigInt(amount * token1.decimals).toString(), [token0.address, token1.address]]);
+        let amount0 = amount == 0 ? 0 : await swap?.call('getAmountsIn', [BigInt(amount * token1.decimals).toString(), [token0.address, token1.address]]);
         // console.log(amount1)
 
         setAmount0(handleFloat(amount0 / token0.decimals));
     }
 
-    const getTokenLists = (lists, token) => {
+    const getTokenLists = (lists: string[][], token: string) => {
         let list = lists.filter(item => item.includes(token));
         let tokenLists = list.flat().filter(item => item != token);
         setToken0(Tokens[token])
@@ -59,13 +59,13 @@ export default function Swap() {
         try {
             let token0Amount = BigInt(amount0 * token0.decimals);
             setLoading(true);
-            await tokenA.call('approve', [swapAddress, token0Amount]);
-            await swap.call('swapExactTokensForTokens',
+            await tokenA?.call('approve', [swapAddress, token0Amount.toString()]);
+            await swap?.call('swapExactTokensForTokens',
                 [token0Amount.toString(),
                     '1',
                 [token0.address, token1.address]])
             setLoading(false)
-        } catch (err) {
+        } catch (err: any) {
             alert(err.message)
             setLoading(false)
         }
@@ -80,7 +80,7 @@ export default function Swap() {
                     <div className="label">
                         <span className="label-text text-white">{token0.name}</span>
                         <select className="select select-bordered select-sm max-w-xs" onChange={(e) => getTokenLists(pairs, e.target.value)}>
-                            {Object.entries(Tokens).map(item => <option value={item[1].name}>{item[1].name}</option>)}
+                            {Object.entries(Tokens).map((item: any) => <option value={item[1].name}>{item[1].name}</option>)}
                         </select>
                     </div>
                     <input type="number" step='0.001' placeholder="Type here" value={amount0} onChange={(e) => debounce(handleChange0(e.target.value), 1000)} className="input input-bordered w-full max-w-xs" />
