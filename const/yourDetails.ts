@@ -1,17 +1,17 @@
 import { Token } from "./types";
 
-export const Tokens: any = {
-    TEther: {
+export const Tokens: Token = {
+    "TEther": {
         name: 'TEther',
         address: '0x0Cc68AD25AA0172D591F4421666578464ACeA011',
         decimals: 1e18,
     },
-    TDai: {
+    "TDai": {
         name: 'TDai',
         address: '0x315209D528093781ceF9116eF8DE212DA56cf988',
         decimals: 1e18,
     },
-    TLink: {
+    "TLink": {
         name: 'TLink',
         address: '0x85Fc75a248E68d3E32434e00350cBB363adaeb36',
         decimals: 1e18,
